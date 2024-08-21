@@ -3,17 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rename Images with Labels</title>
+    <title>Manage Images</title>
   </head>
   <body>
-    <h1>Rename Images with Labels</h1>
+    <h1>Manage Images</h1>
+    <form method="POST">
+      <label for="exp">Select Experiment Directory:</label>
+      <select id="exp" name="exp">
+        {% for exp in exps %}
+        <option value="{{ exp }}" {% if exp == current_exp %}selected{% endif %}>{{ exp }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" name="select_exp">Select</button>
+    </form>
+
+    {% if current_exp %}
     <form method="POST">
       <table>
         {% for image in images %}
         <tr>
           <td>
             <img
-              src="{{ url_for('static', filename='person/' ~ image) }}"
+              src="{{ url_for('static', filename=current_exp ~ '/crops/person/' ~ image) }}"
               alt="{{ image }}"
               style="max-width: 200px"
             />
@@ -28,14 +39,13 @@
           </td>
           <td>
             <!-- Nút Delete -->
-            <button type="submit" name="delete" value="{{ image }}">
-              Delete
-            </button>
+            <button type="submit" name="delete" value="{{ image }}">Delete</button>
           </td>
         </tr>
         {% endfor %}
       </table>
       <button type="submit">Rename</button>
     </form>
+    {% endif %}
   </body>
 </html>
