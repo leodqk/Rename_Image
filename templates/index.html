@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rename Images with Labels</title>
+  </head>
+  <body>
+    <h1>Rename Images with Labels</h1>
+    <form method="POST">
+      <table>
+        {% for image in images %}
+        <tr>
+          <td>
+            <img
+              src="{{ url_for('static', filename='person/' ~ image) }}"
+              alt="{{ image }}"
+              style="max-width: 200px"
+            />
+          </td>
+          <td>
+            <select name="label">
+              {% for key, value in label_mapping.items() %}
+              <option value="{{ key }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="filename" value="{{ image }}" />
+          </td>
+          <td>
+            <!-- Nút Delete -->
+            <button type="submit" name="delete" value="{{ image }}">
+              Delete
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      <button type="submit">Rename</button>
+    </form>
+  </body>
+</html>
